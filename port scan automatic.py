@@ -1,16 +1,13 @@
-"""
-Port Scanner Automático
-=======================
-Herramienta de escaneo de puertos con múltiples tipos de escaneo.
-Tipos de escaneo disponibles:
-  - TCP Connect: Intento completo de conexión TCP (3-way handshake).
-  - SYN (Half-open): Envía SYN y espera SYN/ACK sin completar la conexión.
-  - UDP: Envía paquetes UDP y analiza la respuesta ICMP.
-  - TCP ACK: Envía paquetes ACK para filtrar puertos con firewall.
-  - TCP NULL: Envía paquete sin flags para evadir filtros básicos.
-  - TCP XMAS: Enciende flags FIN, PSH y URG simultáneamente.
-"""
 
+print(""" _ __ ___ _ __| |_ ___ ___ __ _ _ __
+| '_ \ / _ \| '__| __|    / __|/ __/ _` | '_ |
+| |_) | (_) | |  | ||     \__ \ (_| (_| | | | |
+| .__/ \___/|_|   \__|    |___/\___\__,_|_| |_|
+|_| """)
+
+import os
+ruta = os.path.join(os.path.dirname(__file__), "README.md")
+import subprocess
 import socket
 import threading
 import sys
@@ -158,6 +155,16 @@ def escaneo_xmas(ip, puerto):
     except (socket.error, OSError):
         return False
 
+def mostrar_manual():
+    try:
+
+        subprocess.run(["less", "-R", "README.md"])
+     except FileNotFoundError:
+
+         with open("README.md", "r", encoding="utf-8") as f:
+
+              print (f.read())
+
 
 # Diccionario que mapea cada tipo de escaneo a su función correspondiente
 TIPOS_ESCANEO = {
@@ -167,6 +174,7 @@ TIPOS_ESCANEO = {
     "4": ("TCP ACK", escaneo_ack),
     "5": ("TCP NULL", escaneo_null),
     "6": ("TCP XMAS", escaneo_xmas),
+    "7": ("MANUAL", crear_manual),
 }
 
 # Lista global para guardar los puertos abiertos encontrados
@@ -240,6 +248,7 @@ def mostrar_menu():
     print(f"  4. {AMARILLO}TCP ACK{RESET}      - Detecta reglas de firewall")
     print(f"  5. {AMARILLO}TCP NULL{RESET}     - Sin flags (evade IDS básico)")
     print(f"  6. {AMARILLO}TCP XMAS{RESET}     - Flags FIN+PSH+URG (evade IDS básico)")
+    print(f"  7. {AMARILLO}MANUAL{RESET}       - Muestra el maunal de la herramienta " )
     print(f"  0. {ROJO}Salir{RESET}")
 
 
@@ -263,6 +272,10 @@ def main():
 
         # Selección del tipo de escaneo
         opcion = input(f"\n{AZUL}Selecciona el tipo de escaneo: {RESET}")
+
+        elif opcion == "7":
+           mostrar_manual()
+           input("\presiona para Enter volver al menu")
 
         if opcion == "0":
             print(f"\n{VERDE}Saliendo...{RESET}")

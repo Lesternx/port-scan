@@ -1,3 +1,12 @@
+Herramienta de escaneo de puertos con múltiples tipos de escaneo.
+Tipos de escaneo disponibles:
+  - TCP Connect: Intento completo de conexión TCP (3-way handshak>
+  - SYN (Half-open): Envía SYN y espera SYN/ACK sin completar la >
+  - UDP: Envía paquetes UDP y analiza la respuesta ICMP.
+  - TCP ACK: Envía paquetes ACK para filtrar puertos con firewall.
+  - TCP NULL: Envía paquete sin flags para evadir filtros básicos.
+  - TCP XMAS: Enciende flags FIN, PSH y URG simultáneamente
+
 # Port Scan
 
 Escaneador de puertos automatico en Python con multiples tipos de escaneo.
